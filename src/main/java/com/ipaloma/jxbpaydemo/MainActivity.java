@@ -115,7 +115,7 @@ public class MainActivity extends Activity {
             // check the status of payment with resulturl
             if (resulturl != null && !resulturl.trim().equals("")) {
                 if(mPaymentStatusTask != null
-                        && mPaymentStatusTask.getStatus() == AsyncTask.Status.RUNNING  || mPaymentStatusTask.getStatus() == AsyncTask.Status.PENDING)
+                        && (mPaymentStatusTask.getStatus() == AsyncTask.Status.RUNNING  || mPaymentStatusTask.getStatus() == AsyncTask.Status.PENDING))
                     mPaymentStatusTask.cancel(true);
 
                 mPaymentStatusTask = new PaymentStatusTask(resulturl, 60 * 1000);
@@ -168,13 +168,16 @@ public class MainActivity extends Activity {
 
                     if(!result.optString("error","").equals(""))
                         return content;
-
-                    String status = result.optString("status");
+                    result = result.optJSONObject("data");
+                    String status = result.optString("sessionstatus", "");
                     bContinue = status.equals("等待");
-                } catch (JSONException e) {
+                    if(bContinue)
+                        Thread.sleep(5000);
+                } catch (Exception e) {
                     e.printStackTrace();
                     return null;
                 }
+
             }
             StringBuilder stringBuilder = new StringBuilder();
             for (Iterator<String> it = result.keys(); it.hasNext(); ) {
