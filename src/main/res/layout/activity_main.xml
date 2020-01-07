@@ -125,8 +125,49 @@
                 android:layout_marginRight="3dip"
                 android:background="@color/white"
                 android:visibility="visible" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
+                <TextView
+                    android:id="@+id/tv_billnumber_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="订单号"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/billnumber_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@+id/tv_billnumber_text"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="10dp"
+                    android:singleLine="true"
+                    android:text="202001042012135300001"
+                    android:textColor="#F44336"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:layout_marginLeft="3dip"
+                android:layout_marginRight="3dip"
+                android:background="@color/white"
+                android:visibility="visible" />
             <RadioGroup
+                android:id="@+id/channels"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -177,7 +218,7 @@
                 android:layout_height="100dp"
 
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginRight="40dp"
                 android:text="去付款"
                 android:textSize="36sp" />

@@ -15,6 +15,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,12 +46,15 @@ import java.util.List;
 public class MainActivity extends Activity {
     private final static String TAG = "MainActivity";
     private Button mCheckoutBtn;
+    private EditText mSandbox;
 
     private Activity mActivity = null;
 
     private int payment_requestcode = 666666;
     private Intent mLoadActivityIntent;
     private String mResultUrl;
+    private RadioGroup mChannel;
+    private EditText mBillNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +62,39 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
+        // Sandbox
+        mSandbox = (EditText) findViewById(R.id.sandbox_value);
+        // 订单编号
+        mBillNumber = (EditText) findViewById(R.id.billnumber_value);
         //支付方式选择
+        mChannel = (RadioGroup) findViewById(R.id.channels);
+
+        // 支付按钮
         mCheckoutBtn = (Button) findViewById(R.id.checkout);
+
         mCheckoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String sandbox = mSandbox.getText().toString().trim();
+                if(sandbox.trim() == "") {
+                    Toast.makeText(mActivity, R.string.no_sandbox_specified, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String billnumber = mSandbox.getText().toString().trim();
+                if(sandbox.trim() == "") {
+                    Toast.makeText(mActivity, R.string.no_billnumber_specified, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                int checkedId = mChannel.getCheckedRadioButtonId();
                 mLoadActivityIntent = getPackageManager().getLaunchIntentForPackage("com.ipaloma.jxbpay");
                 if(mLoadActivityIntent != null) {
                     mLoadActivityIntent.putExtra("amount", 0.01);				// 支付金额
-                    mLoadActivityIntent.putExtra("sandbox", "18531828656");	// 注册商户的二级域名
+                    mLoadActivityIntent.putExtra("sandbox", sandbox);	// 注册商户的二级域名
                     mLoadActivityIntent.putExtra("title", "经销宝收银台");	// 定义收银台界面的title
-                    mLoadActivityIntent.putExtra("billnumber", "202001042012135300001");	// 订单编号
-                    mLoadActivityIntent.putExtra("notifyurl", "http://xxx?orderid=202001042012135300001");	// 支付完成后，将会调用此url（http post）通知结果(json格式)
+                    mLoadActivityIntent.putExtra("billnumber", billnumber);	// 订单编号
+                    mLoadActivityIntent.putExtra("notifyurl", "http://xxx?orderid="+billnumber);	// 支付完成后，将会调用此url（http post）通知结果(json格式)
+                    mLoadActivityIntent.putExtra("env",  checkedId == R.id.dev ? "dev" : checkedId == R.id.demo ? "demo" : "");
+
                     startActivityForResult(mLoadActivityIntent, payment_requestcode);
                 }
                 // TODO the application not installed, try to install it first
