@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
                     mLoadActivityIntent.putExtra("amount", 0.01);				// 支付金额
                     mLoadActivityIntent.putExtra("sandbox", "18531828656");	// 注册商户的二级域名
                     mLoadActivityIntent.putExtra("title", "经销宝收银台");	// 定义收银台界面的title
-                    mLoadActivityIntent.putExtra("billnumber", "202001042012135300001");	// 订单编号 yyyyMMddHHmmssSSSS + 7位随机数
+                    mLoadActivityIntent.putExtra("billnumber", "202001042012135300001");	// 订单编号
                     mLoadActivityIntent.putExtra("notifyurl", "http://xxx?orderid=202001042012135300001");	// 支付完成后，将会调用此url（http post）通知结果(json格式)
                     startActivityForResult(mLoadActivityIntent, payment_requestcode);
                 }
