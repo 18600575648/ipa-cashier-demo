@@ -1,2 +1,0 @@
-keystore password: 12345678
-ipacashier-demo password: 12345678
